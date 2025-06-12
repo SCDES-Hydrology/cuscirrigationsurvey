@@ -37,7 +37,7 @@ To acccess the dataset, you can install the package using R:
 
 ``` r
 # install.package('devtools') ## install devtools if you don't have it already.
-devtools::install_github("capellett/cuscirrigationsurvey")
+devtools::install_github("https://github.com/SCDES-Hydrology/cuscirrigationsurvey")
 ```
 
 Or, just check out the article to get started.
