@@ -1,0 +1,25 @@
+Package: cuscirrigationsurvey
+Title: Irrigation Survey Data from Clemson University Extension, 1997-2000
+Version: 0.2.0
+Authors@R: c(
+    person("W Bryan", "Smith", , "wsmth@clemson.edu", role = c("aut")),
+    person("C A", "Pellett", , "c.alex.pellett@gmail.com", role = c("aut", "cre")),
+    person("N J", "Pinder", , "nicholas.pinder@des.sc.gov", role = c("aut")),
+    person("State of South Carolina Department of Environmental Services", role = "fnd")
+  )
+Maintainer: Nicholas Pinder <nicholas.pinder@des.sc.gov> 
+Description: A dataset compiled from surveys conducted by Clemson Extension Field Agents from 1997-2000.
+URL: https://github.com/capellett/cuscirrigationsurvey, https://capellett.github.io/cuscirrigationsurvey/
+BugReports: https://github.com/capellett/cuscirrigationsurvey/issues
+Suggests: 
+    testthat,
+    knitr, 
+    rmarkdown
+Depends: 
+    R (>= 4.5)
+LazyData: true
+License: MIT + file LICENSE
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1

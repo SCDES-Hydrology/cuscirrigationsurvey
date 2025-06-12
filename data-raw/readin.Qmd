@@ -1,0 +1,82 @@
+---
+title: "Untitled"
+format: html
+---
+
+```{r}
+# library(tidyverse)
+irr <- readxl::read_excel("compilation.xlsx") 
+```
+
+```{r eval=F}
+## The compiled data contains the following information for each County.
+irr |>
+  dplyr::select(Category, Subcategory) |>
+  unique()
+
+# table(irr$Year)
+# table(irr$Category)
+# table(irr$Subcategory)
+```
+
+```{r}
+## The names of the extension agents who collected the data in each county.
+contact_names <- readxl::read_excel("compilation.xlsx", sheet='contacts') |>
+  tidyr::gather("County", "Source", Abbeville:York)
+```
+
+```{r}
+## combine the data with the contact names.
+irr2 <- tidyr::gather(irr, "County", "Value", Abbeville:York) |>
+  dplyr::left_join(contact_names, by=c("County", "Year"))
+
+# rm(irr, contact_names)
+
+# unique(irr2$Year)
+## 1997 1998 1999 2000
+# unique(irr2$Category)
+## "Sprinkler", "Gravity/Flood", "Low Flow / Drip", "Total Irrigated Acreage", 
+## "Irrigation Power Unit Types", "Irrigation Wells", "Pumps", "Irrigation by Crop"         
+```
+
+
+```{r}
+## split the data in to three tables: by crop, by distribution system category, and by other attributes
+
+## by crop
+crops <- irr2 |>
+  dplyr::filter(Category=='Irrigation by Crop') |>
+  dplyr::mutate(Acres=dplyr::if_else(is.na(Value), 0, Value)) |>
+  dplyr::select(County, Crop=Subcategory, Year, Acres, Source)
+
+usethis::use_data(crops, overwrite=T)
+## graph this along with the other datasets that can do County*Crop
+```
+
+```{r}
+unique(irr2$Category)
+
+```
+
+
+```{r}
+## by distribution system category
+categories <- irr2 |>
+  dplyr::filter(Category %in% c(
+    'Sprinkler', 'Gravity/Flood', 'Low Flow / Drip', 'Total Irrigated Acreage')) |>
+  dplyr::mutate(Acres=dplyr::if_else(is.na(Value), 0, Value)) |>
+  dplyr::select(County, Category, Subcategory, Year, Acres, Source)
+
+usethis::use_data(categories, overwrite=T)
+```
+
+```{r}
+
+irr_attributes <- irr2 |>
+  dplyr::filter(Category %in% c("Irrigation Power Unit Types", "Irrigation Wells", "Pumps")) |>
+  dplyr::mutate(Value=dplyr::if_else(is.na(Value), 0, Value))  |>
+  dplyr::select(County, Category, Subcategory, Year, Value, Source)
+
+usethis::use_data(irr_attributes, overwrite=T)
+```
+  
